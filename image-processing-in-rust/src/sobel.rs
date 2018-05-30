@@ -35,3 +35,4 @@ pub fn sobel_detector(filename: &str, threshold: u8) {
     sobeled_im.save("sobel.jpg");
     
 }
+
