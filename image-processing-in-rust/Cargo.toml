@@ -5,3 +5,4 @@ authors = ["heath00 <HeathReineke2018@u.northwestern.edu>"]
 
 [dependencies]
 image = "*"
+nalgebra = "0.15.0"
