@@ -10,19 +10,64 @@ pub fn handler() {
     let mean_vec = calculate_mean_vec_na(&my_mat);
     reduce_matrix_na(&mut my_mat, mean_vec);
 
-    let cov_mat_small = get_covariant_mat_small(my_mat);
-//    let cov_mat_large = get_covariant_mat_large(my_mat);
+    let cov_mat_small = get_covariant_mat_small(&my_mat);
 
     let svd_mat = na::linalg::SVD::new(cov_mat_small, true, true);
-    let eigen_vals_pwr_N_hlf = svd_mat.clone().v_t.unwrap().map(|v| v.powf(-0.5));
+    let mut eigen_vals_pwr_n_hlf = svd_mat.clone().singular_values.map(|v| v.powf(-0.5));
+//    println!("{}",eigen_vals_pwr_N_hlf);
 
-    println!("{:?}", svd_mat.v_t);
-//    for i in 0..eigen_vals_pwr_N_hlf.nrows() {
-//        let mut this_row = actual_eigens.column_mut(i);
-//
-//    }
+    let eigenvector_v = svd_mat.v_t.unwrap().clone();
 
+    let mut mat_holder = Vec::with_capacity(my_mat.nrows() * my_mat.ncols());
+    for i in 0..eigenvector_v.ncols() {
+//        println!("{} x {} vs {} x {}", my_mat.nrows(), my_mat.ncols(), eigenvectorV.column(i).nrows(), eigenvectorV.column(i).ncols());
+        let mut this_vec = (&my_mat * eigenvector_v.column(i)).to_owned();
+        this_vec = this_vec * eigen_vals_pwr_n_hlf[i];
+//        println!("{} x {} vs {} x {}", this_vec.nrows(), this_vec.ncols(), eigen_vals_pwr_N_hlf.nrows(), eigen_vals_pwr_N_hlf.ncols());
+//        println!("{}", Vec::from(this_vec).len());
+//        println!("{:?}", this_vec);
+        mat_holder.append(&mut Vec::from(this_vec.as_slice()));
+    }
 
+    let mat_holder_as_slice: &[f32] = &mat_holder;
+    let mut eigenvector_u = DMatrix::from_row_slice(my_mat.nrows(), my_mat.ncols(), mat_holder_as_slice);
+
+    normalize_u(&mut eigenvector_u);
+
+}
+
+fn normalize_u(u: &mut DMatrix<f32>) {
+
+    // keeps track of mins and maxs while we iterate through every value to get sum_of_sq
+    let mut mins = Vec::with_capacity(u.ncols());
+    let mut maxs = Vec::with_capacity(u.ncols());
+
+    for i in 0..u.ncols() {
+        let mut this_min = u[(0, i)];
+        let mut this_max = u[(0, i)];
+
+        let mut sum_of_sq = 0f32;
+
+        for j in 0..u.nrows() {
+            sum_of_sq += u[(j, i)];
+
+            if this_min > u[(j, i)] {this_min = u[(j,i)]}
+            else if this_max < u[(j,i)] {this_max = u[(j,i)]}
+        }
+        sum_of_sq = sum_of_sq.sqrt();
+        let mut this_col = u.column_mut(i);
+        this_col /= sum_of_sq;
+        mins.push(this_min / sum_of_sq);
+        maxs.push(this_max / sum_of_sq);
+    }
+
+    for i in 0..u.ncols() {
+        for j in 0..u.nrows() {
+            u[(j,i)] = 255f32 * ((u[(j,i)] - mins[i]) / (maxs[i] - mins[i]));
+            u[(j,i)] = u[(j,i)].floor();
+        }
+    }
+    println!("{}", u.column(0));
 
 }
 
@@ -32,7 +77,7 @@ fn get_covariant_mat_large(inp: DMatrix<f32>) -> DMatrix<f32> {
     inp * transposed
 }
 
-fn get_covariant_mat_small(inp: DMatrix<f32>) -> DMatrix<f32> {
+fn get_covariant_mat_small(inp: &DMatrix<f32>) -> DMatrix<f32> {
     let transposed: DMatrix<f32> = inp.transpose();
     transposed * inp
 }
