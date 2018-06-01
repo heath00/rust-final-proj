@@ -30,10 +30,10 @@ pub fn sobel_detector(filename: &str, export_directory: &str, threshold: u8) {
         }
     }
 
-    let mut export = export_directory.to_string();
+    let export = export_directory.to_string();
     let borrowed_x: &str = "\\grey_x.jpg";
     let borrowed_y: &str = "\\grey_y.jpg";
-    let borrowed_sobel: &str = "\\grey_sobel.jpg";
+    let borrowed_sobel: &str = "\\sobel.jpg";
     let export_x = export.clone() + borrowed_x;
     let export_y = export.clone() + borrowed_y;
     let export_sobel = export.clone() + borrowed_sobel;
