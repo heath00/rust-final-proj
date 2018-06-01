@@ -1,7 +1,7 @@
 extern crate image;
 use image::{GenericImage, Pixel};
 
-pub fn sobel_detector(filename: &str, threshold: u8) {
+pub fn sobel_detector(filename: &str, export_directory: &str, threshold: u8) {
     let img = image::open(filename).unwrap();
 
     let (dim_x, dim_y) = img.dimensions();
@@ -30,9 +30,19 @@ pub fn sobel_detector(filename: &str, threshold: u8) {
         }
     }
 
-    gray_x.save("gray_x.jpg");
-    gray_y.save("gray_y.jpg");
-    sobeled_im.save("sobel.jpg");
+    let mut export = export_directory.to_string();
+    let borrowed_x: &str = "\\grey_x.jpg";
+    let borrowed_y: &str = "\\grey_y.jpg";
+    let borrowed_sobel: &str = "\\grey_sobel.jpg";
+    let export_x = export.clone() + borrowed_x;
+    let export_y = export.clone() + borrowed_y;
+    let export_sobel = export.clone() + borrowed_sobel;
+
+    gray_x.save(export_x);
+    gray_y.save(export_y);
+    sobeled_im.save(export_sobel);
+
+
     
 }
 

@@ -3,10 +3,11 @@ use rust_im::sobel::{sobel_detector};
 use rust_im::eigenfaces::{handler};
 
 fn main() {
-//    sobel_detector("test2.jpg", 40);
+    sobel_detector("in_images\\test2.jpg",
+                   "out_images",
+                   40);
 
-
-    handler()
+//    handler()
 
 
 
