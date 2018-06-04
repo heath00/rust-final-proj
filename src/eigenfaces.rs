@@ -16,18 +16,14 @@ pub fn handler() {
 
     let svd_mat = na::linalg::SVD::new(cov_mat_small, true, true);
     let mut eigen_vals_pwr_n_hlf = svd_mat.clone().singular_values.map(|v| v.powf(-0.5));
-//    println!("{}",eigen_vals_pwr_N_hlf);
+
 
     let eigenvector_v = svd_mat.v_t.unwrap().clone();
 
     let mut mat_holder = Vec::with_capacity(my_mat.nrows() * my_mat.ncols());
     for i in 0..eigenvector_v.ncols() {
-//        println!("{} x {} vs {} x {}", my_mat.nrows(), my_mat.ncols(), eigenvectorV.column(i).nrows(), eigenvectorV.column(i).ncols());
         let mut this_vec = (&my_mat * eigenvector_v.column(i)).to_owned();
         this_vec = this_vec * eigen_vals_pwr_n_hlf[i];
-//        println!("{} x {} vs {} x {}", this_vec.nrows(), this_vec.ncols(), eigen_vals_pwr_N_hlf.nrows(), eigen_vals_pwr_N_hlf.ncols());
-//        println!("{}", Vec::from(this_vec).len());
-//        println!("{:?}", this_vec);
         mat_holder.append(&mut Vec::from(this_vec.as_slice()));
     }
 

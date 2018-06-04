@@ -1,8 +1,10 @@
 extern crate image;
 use image::{GenericImage, Pixel};
 
+
 pub fn sobel_detector(filename: &str, export_directory: &str, threshold: u8) {
     let img = image::open(filename).unwrap();
+
 
     let (dim_x, dim_y) = img.dimensions();
 
@@ -13,7 +15,7 @@ pub fn sobel_detector(filename: &str, export_directory: &str, threshold: u8) {
     let gray_x = gray_im.filter3x3(filt_x);
     let gray_y = gray_im.filter3x3(filt_y);
 
-    let mut sobeled_im = image::ImageBuffer::new(512, 512);
+    let mut sobeled_im = image::ImageBuffer::new(dim_x, dim_y);
 
 
     for i in 0..dim_x {
@@ -25,7 +27,7 @@ pub fn sobel_detector(filename: &str, export_directory: &str, threshold: u8) {
             px2_sq = px2_sq.powf(2.);
 
             let new_val = (px1_sq + px2_sq).sqrt().ceil() as u8;
-            let new_px = gray_x.get_pixel(i, j).map(|_v| if new_val > threshold {new_val} else {0});
+            let new_px = gray_x.get_pixel(i, j).map(|_v| if new_val > threshold {255} else {0});
             sobeled_im.put_pixel(i, j, new_px);
         }
     }
