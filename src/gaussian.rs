@@ -26,17 +26,3 @@ pub fn compute_gaussian_kernel2d(width: usize, sigma: f32) -> Vec<f32> {
     kernel_vector
 
 }
-
-/*
-pub fn apply_gaussian_filter(kernel_x: &[f32], kernel_y: &[f32]){
-
-    let mut row_off = vec![0u32; kernel_y.len()];
-    let channels_default: usize = 3;
-    let half_kernel_x_width = kernel_x.len() / 2;
-    let temp_z = channels_default * (width as usize + kernel_x.len() + 1);
-    let mut temp_vector = vec![0 as f32; temp_z];
-
-    for y in 0..height{
-
-    }
-}*/
