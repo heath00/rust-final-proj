@@ -16,11 +16,6 @@ fn main() {
     decrypt_many("out_images\\encrImg.jpg",
             "out_images", vout);
 
-    let k = compute_gaussian_kernel2d(5, 2.0);
-
-    //println!("Kernel: {}", k?);
-    println!("done");
-
 
 //    handler()
 
