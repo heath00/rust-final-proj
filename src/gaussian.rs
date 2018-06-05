@@ -1,17 +1,9 @@
-pub fn gaussian_blur_filter<T: Pixel>(){
-    let img = image::open(filename).unwrap();
-    let gray_im = img.grayscale();
-}
-
-pub fn compute_guassian_kernel2d(width: usize, sigma: f32) -> Vec<f32> {
+pub fn compute_gaussian_kernel2d(width: usize, sigma: f32) -> Vec<f32> {
 
         let half_width = (width + 1) / 2;
-//      let sigma: f32 = match sigma {
-//          0f32...0.00001f32 => 0.3 * ((w as f32 - 1.0) * 0.5 - 1.0) + 0.8,
-//      }
 
         let sigma2: f32 = 2.0 / sigma * sigma;
-        let kernel_vector = vec![0f32; width];
+        let mut kernel_vector = vec![0f32; width];
 
         // create filter
         for x in 0..half_width{
@@ -21,16 +13,30 @@ pub fn compute_guassian_kernel2d(width: usize, sigma: f32) -> Vec<f32> {
         }
 
         for y in half_width..width{
-            k[y] = k[width - y - 1];
+            kernel_vector[y] = kernel_vector[width - y - 1];
         }
 
     let mut sum = 0.0;
 
     // Normalize
-    for i in 0..width { sum += k[i]; }
-    for i in 0..width { k[i] /= sum; }
+    for i in 0..width { sum += kernel_vector[i]; }
+    for i in 0..width { kernel_vector[i] /= sum; }
 
     // Return Gaussian Kernel
     kernel_vector
 
 }
+
+/*
+pub fn apply_gaussian_filter(kernel_x: &[f32], kernel_y: &[f32]){
+
+    let mut row_off = vec![0u32; kernel_y.len()];
+    let channels_default: usize = 3;
+    let half_kernel_x_width = kernel_x.len() / 2;
+    let temp_z = channels_default * (width as usize + kernel_x.len() + 1);
+    let mut temp_vector = vec![0 as f32; temp_z];
+
+    for y in 0..height{
+
+    }
+}*/

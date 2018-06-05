@@ -2,6 +2,7 @@ extern crate rust_im;
 use rust_im::sobel::{sobel_detector};
 use rust_im::imgEncrypt::{encrypt,decrypt,encrypt_many,decrypt_many};
 use rust_im::eigenfaces::{handler};
+use rust_im::gaussian::{compute_gaussian_kernel2d};
 
 fn main() {
     //sobel_detector("in_images\\test2.jpg",
@@ -14,6 +15,11 @@ fn main() {
 
     decrypt_many("out_images\\encrImg.jpg",
             "out_images", vout);
+
+    let k = compute_gaussian_kernel2d(5, 2.0);
+
+    //println!("Kernel: {}", k?);
+    println!("done");
 
 
 //    handler()
