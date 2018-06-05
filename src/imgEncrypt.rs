@@ -4,6 +4,7 @@ use std::f64;
 
 
 /// Takes a vector of angles to do many encryptions on the image saves to the given directory.
+/// As you add more numbers the image will be harder to recognize when decrypted.
 /// Panics if the given vector of degrees is empty.
 /// Filename: &str, export_directory: &str, degrees Vec<u32> -> puts image into given directory as
 /// encrImg.jpg
