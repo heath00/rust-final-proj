@@ -1,10 +1,9 @@
 extern crate image;
 use image::{GenericImage, Pixel, Luma};
 use std::fs::{read_dir, File};
-use std::path::Path;
 
 extern crate nalgebra as na;
-use self::na::{Dynamic, MatrixArray, MatrixVec, DMatrix, DVector,};
+use self::na::{DMatrix, DVector,};
 
 
 pub fn handler() {
@@ -123,8 +122,7 @@ fn get_covariant_mat_small(inp: &DMatrix<f64>) -> DMatrix<f64> {
 fn img_to_1d(filename: &str, is_grayscale: bool) -> Vec<f64> {
     let mut img = image::open(filename).unwrap();
     let (x,y) = img.dimensions();
-
-    if (!is_grayscale) {
+    if !is_grayscale {
         img = img.grayscale();
     }
 
