@@ -2,6 +2,19 @@ extern crate image;
 use image::{GenericImage, Pixel, DynamicImage};
 use std::fs::{read_dir};
 
+pub fn class_demo() {
+    let img = image::open("in_images\\class_demo.png").unwrap();
+
+    let left_sv = SearchVector::new((250, 50), (45, 615), 15);
+    let mid_sv = SearchVector::new((300, 50), (300, 650), 20);
+    let right_sv = SearchVector::new((350, 50), (570, 650), 15);
+
+    let mut blob_demo = ThreeLaneBlob::new(img, left_sv, mid_sv, right_sv);
+    blob_demo.process_color_image("out_images\\", "sobel_demo", "outlined_demo", 70);
+
+
+}
+
 
 pub fn count_example(inp: &str, out: &str) {
 
