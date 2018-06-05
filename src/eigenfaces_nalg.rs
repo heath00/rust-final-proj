@@ -1,14 +1,13 @@
 extern crate image;
 extern crate nalgebra as na;
 use image::{GenericImage, Pixel};
-use std::fs::read_dir;
 
-use self::na::{Dynamic, MatrixArray, MatrixVec, DMatrix, DVector};
+use self::na::{DVector};
 
 pub fn img_to_1d_na(filename: &str, is_grayscale: bool) -> DVector<f32> {
     let mut img = image::open(filename).unwrap();
     let (x,y) = img.dimensions();
-    if (!is_grayscale) {
+    if !is_grayscale {
         img = img.grayscale();
     }
 
