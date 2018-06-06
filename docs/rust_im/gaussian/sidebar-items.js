@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["compute_gaussian_kernel2d","A function to compute a gaussian kernel of size: s with standard deviation: sd"]]});
