@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["sobel_detector","Used to apply the sobel filter to a given image"]]});

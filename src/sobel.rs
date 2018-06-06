@@ -1,7 +1,16 @@
 extern crate image;
 use image::{GenericImage, Pixel};
 
-
+/// Used to apply the sobel filter to a given image
+///
+/// # Examples
+///
+/// ```
+/// sobel_detector("some_test_image.jpg", "output_directory", 70);
+/// ```
+///
+/// The `threshold` parameter should be less than 255 and greater than 0. Pixels with
+/// intensity > threshold will be included in the filtered image.
 pub fn sobel_detector(filename: &str, export_directory: &str, threshold: u8) {
     let img = image::open(filename).unwrap();
 

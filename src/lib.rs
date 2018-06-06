@@ -5,3 +5,5 @@ pub mod eigenfaces;
 pub mod eigenfaces_nalg;
 pub mod imgEncrypt;
 pub mod traffic_detection;
+pub mod gaussian;
+
