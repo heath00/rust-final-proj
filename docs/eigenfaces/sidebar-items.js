@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["calculate_mean_vec",""],["create_column_vecs",""],["handler",""],["reduce_matrix",""]]});
